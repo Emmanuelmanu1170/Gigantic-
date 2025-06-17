@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Gigantic Boost</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;
+    }
+    .container {
+      background: #fff; padding: 30px; border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 100%; max-width: 500px;
+    }
+    h2 { color: #333; margin-bottom: 20px; text-align: center; }
+    input, button {
+      width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      background: #4CAF50; color: #fff; font-weight: bold;
+      transition: background 0.3s ease; cursor: pointer;
+    }
+    button:hover { background: #45a049; }
+    a { color: #007BFF; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login to Gigantic Boost</h2>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+    <p>Don't have an account? <a href="register.html">Register</a></p>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjA3FTx-7xrAGSwvEuP-d6FsSvNqBP5lI",
+      authDomain: "gigantic-boost.firebaseapp.com",
+      projectId: "gigantic-boost"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("password").value;
+
+      auth.signInWithEmailAndPassword(email, pass)
+        .then((userCred) => {
+          if (!userCred.user.emailVerified) {
+            alert("Please verify your email before logging in.");
+            auth.signOut();
+          } else {
+            window.location.href = "dashboard.html";
+          }
+        })
+        .catch(e => alert(e.message));
+    }
+  </script>
+</body>
+</html>
